@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserAddress;
 class FrontEndController extends Controller
 {
   public function homepage(){
@@ -13,20 +14,24 @@ class FrontEndController extends Controller
     // $users = User::whereIn('id',[23,45,56])->get();
     // $users  = User::active()->latest()->limit(10)->get();
     // $users  = User::latest()->limit(10)->get();
-    $users  = User::withTrashed()->latest()->paginate(6);
+  
+      $users  = User::withCount('orders')->withTrashed()->latest()->paginate(6) ;
+      return view('welcome',compact('users'));
+   
     // $users  = User::withTrashed()->latest()->limit(10)->get();
     // return $users;
 
 
 
-    session()->put('user_name','nabeel');
-    session()->put('user_id','45');
-    return view('welcome',compact('users'));
+
+    // session()->put('user_name','nabeel');
+    // session()->put('user_id','45');
+
   }
 
 public function create(){
   // return session()->get('user_id');
-  session()->increment('user_id');
+  // session()->increment('user_id');
 return view ('users.create');
 }
 public function save(){
@@ -58,6 +63,14 @@ $user =  User::find( decrypt($UserId));
   return view('users.edit',compact('user'));
 
 }
+public function view($UserId){
+  $user =  User::find( decrypt($UserId));
+  // $address = UserAddress::find(1);
+  
+    // return view('users.view',compact('address'));
+    return view('users.view',compact('user'));
+  
+  }
 public function update(){  
   // return request()->except('_token');
   // return request()->all();

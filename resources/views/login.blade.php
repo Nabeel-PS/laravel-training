@@ -5,7 +5,7 @@
     <!-- @endsection -->
 
     <!DOCTYPE html>
-    
+
         <html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -81,22 +81,37 @@
             text-decoration: underline;
         }
     </style>
-</head>
+</head> 
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
-        <form action="login.php" method="post">
-            <label for="username">email address</label>
-            <input type="text" id="email" name="email" required>
+<div class="login-container">
+    <h3>Sign In</h3>
+    @if(session()->has('message'))
+        <h6>{{ session()->get('message') }}</h6>
+    @endif
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+    <form action="{{ route('do.login') }}" method="post">
+        @csrf
 
-            <input type="submit" value="Login">
+        <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        </div>
+        <!-- Remember Me Checkbox -->
+        <div class="form-group">
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">Remember Me</label>
+        </div>
 
-            <a href="#" class="forgot-password">Forgot Password?</a>
-        </form>
-    </div>
+        <input type="submit" value="Login">
+
+        <a href="#" class="forgot-password">Forgot Password?</a>
+    </form>
+</div>
+
 </body>
 </html>
 

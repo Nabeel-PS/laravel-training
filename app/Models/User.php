@@ -44,7 +44,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-  
+  public function address(){
+    return $this->hasone(UserAddress::class,'user_id','id');
+  }
+
+
+  public function orders(){
+    return $this->hasMany(order::class,'user_id','id');
+  }
     public function getDateOfBirthFormatedAttribute(){ //dateofbirth_formated
     return date('d-m-Y', strtotime($this->dateofbirth)); 
     }

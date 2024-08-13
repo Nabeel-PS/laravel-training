@@ -1,6 +1,9 @@
     @extends('layouts.master')
     @section('pagetitle','homepage')
     @section('content')
+    <h6>welcome {{auth()->user()->name}}</h6>
+
+    <a href="{{route('logout')}}" class="btn btn-danger">logout</a>
     <h2>Users</h2>
     @if(session()->has('message'))<p>{{session()->get('message') }}</p> @endif
     <h2>{{ session()->get('date') }}</h2>
@@ -11,7 +14,9 @@
       <th scope="col">#</th>
       <th scope="col">name</th>
       <th scope="col">email</th>
+      <th scope="col">orders</th>
       <th scope="col">status</th>
+   
       <th scope="col">actions</th>
     </tr>
   </thead>
@@ -23,9 +28,11 @@
         <th scope="row">{{$users->firstItem()+ $loop->index }}</th>
       <td>{{$user->name}}</td>
       <td>{{$user->email    }}</td>
+      <td>{{$user->orders_count    }}</td>
       <td>@if ($user->trashed()) trashed   @else active @endif</td>
       <td>
         <a href="{{route ('edit.user', encrypt($user->id))}}" class="btn btn-primary">Edit</a>
+        <a href="{{route ('view.user', encrypt($user->id))}}" class="btn btn-warning">view</a>
         @if ($user->trashed())  <a href="{{route ('activate.user', encrypt($user->id))}}" class="btn btn-success">Activate</a> @endif
         <a href="{{route ('delete.user',encrypt($user->id))}}" class="btn btn-danger">Delete</a>
         <a href="{{route ('force.delete.user',encrypt($user->id))}}" class="btn btn-info">Force delete</a>
