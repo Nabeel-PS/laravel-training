@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Console\Commands;
-use App\Models\User;
-// use App\Console\Commands\DeleteInactiveUsershandle;
+
 use Illuminate\Console\Command;
+use App\Models\User;
 
 class DeleteInactiveUsers extends Command
 {
@@ -26,11 +26,13 @@ class DeleteInactiveUsers extends Command
      *
      * @return int
      */
-    public function handle()
-    {
-
-        User::where('status',0)->delete();         
-        
-
-    }
+     
+     public function handle():
+     {
+       User::where('status', 0)->delete();
+ 
+    
+     }
+          
+    
 }
