@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\UserAddress;
+
+
+use App\Mail\UserCreatedMail;
 class FrontEndController extends Controller
 {
   public function homepage(){
@@ -15,7 +19,7 @@ class FrontEndController extends Controller
     // $users  = User::active()->latest()->limit(10)->get();
     // $users  = User::latest()->limit(10)->get();
   
-      $users  = User::withCount('orders')->withTrashed()->latest()->paginate(6) ;
+      $users  = User::  withCount('orders')->withTrashed()->latest()->paginate(6) ;
       return view('welcome',compact('users'));
    
     // $users  = User::withTrashed()->latest()->limit(10)->get();
@@ -35,15 +39,24 @@ public function create(){
 return view ('users.create');
 }
 public function save(){
+
+
+  request()->validate([
+    'name'=> 'required|min:10|max:15',
+    'email'=> 'required',
+  ]);
   $name = request('name');
   $email = request('email');
   $dob = request('dateofbirth');
   $status = request('status');
+
+
+
 // User::create([
 //   'name' => $name,
 //   'email' => $email,
 //   'dateofbirth' => $dob,
-//   'status' => $status,
+//   'status' => $status, 
 // ]);
 $user = User::updateOrCreate([
   'email' => request('email')
@@ -52,6 +65,13 @@ $user = User::updateOrCreate([
   'dateofbirth' => $dob,
   'status' => $status,
 ]);
+
+Mail::to($user->email)
+->cc('abc@gmail.com')
+->bcc('xyzc@gmail.com')
+->send(new UserCreatedMail($user));
+
+
 // return $user;
 return redirect()->route('home')->with('message','success user created');
 //  return "1 row inserted" ;

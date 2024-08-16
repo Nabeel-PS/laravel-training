@@ -8,6 +8,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Support\Facades\Mail;
 
 class UserCreatedMail extends Mailable
 {
@@ -18,9 +20,12 @@ class UserCreatedMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+
+     public $user;
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -43,17 +48,20 @@ class UserCreatedMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.newUser',
+          
         );
     }
 
     /**
      * Get the attachments for the message.
-     *
+     *  
      * @return array
      */
     public function attachments()
     {
-        return [];
+        return [
+            Attachment::fromPath('https://www.rd.usda.gov/sites/default/files/pdf-sample_0.pdf')
+    ];
     }
 }

@@ -6,13 +6,14 @@
                 @csrf   
         <div class="form-group">
             <label >NAME - {{session()->get('user_name') }}</label>
-            <input type="text" name="name" class="form-control" aria-describedby="emailHelp" placeholder="Enter name">
-            
+            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" aria-describedby="emailHelp" placeholder="Enter name">
+            @error('name') <p class="btn-danger">{{ $message }} </p>@enderror
         </div>
         <P></P>
         <div class="form-group">
             <label >email</label>
             <input type="email" name="email" class="form-control"  placeholder="email">
+            @error('email') <p class="alert-danger">{{ $message }} </p>@enderror
         </div>
         <P></P>
         <div class="form-group">

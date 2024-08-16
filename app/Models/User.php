@@ -52,6 +52,7 @@ class User extends Authenticatable
   public function orders(){
     return $this->hasMany(order::class,'user_id','id');
   }
+  
     public function getDateOfBirthFormatedAttribute(){ //dateofbirth_formated
     return date('d-m-Y', strtotime($this->dateofbirth)); 
     }
